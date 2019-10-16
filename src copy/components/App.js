@@ -1,48 +1,47 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { startGame, cancelGame } from '../actions/settings';
+import Search from './Search';
+import Artist from './Artist';
+import Tracks from './Tracks'; 
+
+const API_ADDRESS = 'https://spotify-api-wrapper.appspot.com';
 
 class App extends Component {
+state = { artist: null, tracks: [] };
 
-    render() {
-        console.log('this', this);
+componentDidMount() {
+    this.searchArtist('Skrillex');
+}
 
-        return (
-            <div>
-                <h2>♠ ♥ Evens 🔥 Odds ♦ ♣</h2>
-                {
-                    this.props.gameStarted ? (
-                        <div>
-                            <h3>The game is on!</h3>
-                            <br />
-                            <button onClick={this.props.cancelGame}>Cancel Game</button>
-                        </div>
-                    ) : (
-                        <div>
-                            <h3>A new game awaits</h3>
-                            <br />
-                            <button onClick={this.props.startGame}>Start Game</button>
-                        </div>
-                    )
-                }            
+searchArtist = artistQuery => {
+    fetch(`${API_ADDRESS}/artist/${artistQuery}`) 
+    .then(response => response.json())
+    .then(json => {
+            if (json.artists.total > 0 ) {
+                const artist = json.artists.items[0];
+                this.setState({ artist }); 
+
+                fetch(`${API_ADDRESS}/artist/${artist.id}/top-tracks`)
+                .then(response => response.json())
+                .then(json => this.setState({ tracks: json.tracks }))
+                .catch(error => alert(error.message));
+            }
+        })
+        .catch(error => alert(error.message));
+}
+    
+render() {
+    console.log('this.state', this.state);
+
+    return (
+        <div>
+            <h2>Music Master</h2>
+            <Search searchArtist={this.searchArtist} />
+            <Artist artist={this.state.artist} />
+            <Tracks tracks={this.state.tracks} />
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    console.log('state', state);
 
-    return { gameStarted: state.gameStarted };
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        startGame: () => dispatch(startGame()), 
-        cancelGame: () => dispatch(cancelGame())
-    };
-}
-
-const componentConnector = connect(mapStateToProps, mapDispatchToProps);
-
-export default componentConnector(App);
+export default App;

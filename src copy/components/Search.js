@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
+
 class Search extends Component {
-  state = { artistQuery: '' };
+  state = {artistQuery: '' };
 
   updateArtistQuery = event => {
     this.setState({ artistQuery: event.target.value });
