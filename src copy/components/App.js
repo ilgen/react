@@ -1,48 +1,55 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { startGame, cancelGame } from '../actions/settings';
+import Projects from './Projects';
+import SocialProfiles from './SocialProfiles';
+import Title from './Title';
+import profile from '../assets/profile_image.jpg';
 
 class App extends Component {
+    state = {displayBio: false};
 
+    //constructor() {
+     //   super();
+     //   this.state = { displayBio: false };
+
+     //   console.log('Component this', this);
+
+     //   this.toggleDisplayBio = this.toggleDisplayBio.bind(this);
+    //     }
+
+    toggleDisplayBio = () => {
+       this.setState({ displayBio: !this.state.displayBio})
+    }
+ 
     render() {
-        console.log('this', this);
-
         return (
             <div>
-                <h2>♠ ♥ Evens 🔥 Odds ♦ ♣</h2>
+                <img src={profile} alt='profile' className='profile' />
+                <h1>Hello!</h1>
+                <p>My name is Colin Ilgen.</p>
+                <Title />
+                <p>I always look foward to working on meaningful projects.</p>
                 {
-                    this.props.gameStarted ? (
-                        <div>
-                            <h3>The game is on!</h3>
-                            <br />
-                            <button onClick={this.props.cancelGame}>Cancel Game</button>
-                        </div>
-                    ) : (
-                        <div>
-                            <h3>A new game awaits</h3>
-                            <br />
-                            <button onClick={this.props.startGame}>Start Game</button>
-                        </div>
-                    )
-                }            
+                        this.state.displayBio ? (
+                            <div>
+                            <p>I live in Los Angeles, CA and code all the time.</p>
+                            <p>My favorite language is JavaScript, and my favorite framework is React.js</p>
+                            <p>Besides coding, I also love sushi.</p>
+                            <button onClick={this.toggleDisplayBio}>show less</button>
+                            </div>
+                        ) : (
+                            <div>
+                                <button onClick={this.toggleDisplayBio}>read more</button>
+                            </div>
+                        )
+                }
+                <hr />
+                <Projects />
+                <hr />
+                <SocialProfiles />
             </div>
-        );
+        )
     }
-}
+    }
 
-const mapStateToProps = state => {
-    console.log('state', state);
 
-    return { gameStarted: state.gameStarted };
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        startGame: () => dispatch(startGame()), 
-        cancelGame: () => dispatch(cancelGame())
-    };
-}
-
-const componentConnector = connect(mapStateToProps, mapDispatchToProps);
-
-export default componentConnector(App);
+export default App;
