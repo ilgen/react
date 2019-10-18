@@ -35,3 +35,4 @@ new Promise(( resolve, reject ) => {
 })
 .catch(error => console.log('error', error));
 */
+export default index; 
