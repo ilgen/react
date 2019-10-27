@@ -1,38 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Switch, Route } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers';
+import PubSub from './pubsub';
 import App from './components/App';
-import Jokes from './components/Jokes';
-import MusicMaster from './projects/music-master';
-import EvensOrOdds from './projects/evens-or-odds';
-import Header from './components/Header';
+import { newMessage } from './actions/messages';
 import './index.css';
 
-const history = createBrowserHistory();
+const store = createStore(rootReducer);
+
+console.log('store.getState()', store.getState());
+store.subscribe(() => console.log('store.getState()', store.getState()));
+
+const pubsub = new PubSub();
+
+pubsub.addListener({
+    message: messageObject => {
+        const { message, channel } = messageObject;
+
+        console.log('Received message:', message, 'channel:', channel);
+
+        store.dispatch(message);
+    }
+});
+
+setTimeout(() => {
+    pubsub.publish(newMessage('Hello world!'));
+}, 1000);
 
 ReactDOM.render(
-<Router history={createBrowserHistory()}>
-    <Switch>
-        <Route exact path='/' render={() => <Header><App /></Header>} />
-        <Route path='/jokes' render={() => <Header><Jokes /></Header>} />
-        <Route path='/music-master' render={() => <Header><MusicMaster /></Header>} />
-        <Route path='/evens-or-odds' render={() => <Header><EvensOrOdds /></Header>} />
-    </Switch>
-</Router>,
-document.getElementById('root')
+<Provider store ={store}>
+    <App />
+    </Provider>,
+    document.getElementById('root')
 );
-/* fetch with promises (error handling)
-new Promise(( resolve, reject ) => {
-    return reject(new Error('No bears'));
-
-    setTimeout(() => {
-        resolve('Bears, Beets, Battlestar Galactica');
-    }, 2000);
-})
-.then(quote => {
-    console.log(quote);
-})
-.catch(error => console.log('error', error));
-*/
-export default index; 
