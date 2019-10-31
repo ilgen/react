@@ -20,8 +20,9 @@ class CreateReaction extends Component {
                         return (
                         <span
                         style={{ margin: 5, cursor: 'pointer'}}
-                        key={type}>
-                            onClick={this.publishReaction({type, emoji})}
+                        key={type}
+                        onClick={this.publishReaction({type, emoji})}
+                        >
                         {emoji}
                         </span>
                     )

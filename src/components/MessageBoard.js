@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CreateReaction from './CreateReaction';
 
-const MessageReactons = ({ messageReactions }) => {
-    if(!messageReactions) return null;
 
+const MessageReactions = ({ messageReactions }) => {
+    if(!messageReactions) return null;
     return (
+        <div>
+          {
         messageReactions.map((reaction, index) => {
-            const { id, emoji, username } = reaction;
+
+            const { type, emoji, username, messageId } = reaction;
 
             return (
                 <span key={id}>
@@ -17,6 +20,8 @@ const MessageReactons = ({ messageReactions }) => {
                 </span>
             )
         })
+    }
+    </div>
     )
 }
 
@@ -43,6 +48,7 @@ const MessageBoard = ({ messages, reactions }) => {
       </div>
   )
 }
+
 
 export default connect (
     ({messages, reactions }) => {( messages, reactions )}

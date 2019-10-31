@@ -6,7 +6,7 @@ import rootReducer from './reducers';
 import PubSub, { PubSubContext } from './pubsub';
 import App from './components/App';
 import { newMessage } from './actions/messages';
-import './index.css';
+import index from '../src';
 
 const store = createStore(
     rootReducer,
@@ -41,3 +41,4 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
+export default index; 
