@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-
+import PublishMessage from './PublishMessage';
 
 class App extends Component {
     render() {
         return (
-            <div>React App</div>
+            <div>
+                <h2>Reaction</h2>
+                <hr />
+                <PublishMessage />
+            </div>
         );
     }
 }
