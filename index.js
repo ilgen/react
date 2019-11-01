@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers';
-import PubSub from './pubsub';
+import PubSub, { PubSubContext } from './pubsub';
 import App from './components/App';
 import { newMessage } from './actions/messages';
 import './index.css';
-
 
 
 const store = createStore(rootReducer);
@@ -33,7 +32,9 @@ setTimeout(() => {
 
 ReactDOM.render(
 <Provider store={store}>
+    <PubSubContext.Provider value={{ pubsub }}>
     <App />
+    </PubSubContext.Provider>
     </Provider>, 
     document.getElementById('root')
     );
