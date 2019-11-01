@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PublishMessage from './PublishMessage';
+import MessageBoard from './MessageBoard';
 
 class App extends Component {
     render() {
@@ -8,6 +9,8 @@ class App extends Component {
                 <h2>Reaction</h2>
                 <hr />
                 <PublishMessage />
+                <hr />
+                <MessageBoard />
             </div>
         );
     }
