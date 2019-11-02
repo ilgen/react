@@ -6,12 +6,13 @@ return (
     <div>
         {
             messages.items.map(messageItem => {
-                const { id, text, timestamp } = messageItem;
+                const { id, text, timestamp, username } = messageItem;
 
                 return (
                     <div key={id}>
                         <h4>{new Date(timestamp).toLocaleString()}</h4>
                         <p>{text}</p>
+                        <h3>{username}</h3>
                         <hr />
                         </div>
                 )
